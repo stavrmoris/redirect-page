@@ -24,14 +24,14 @@
 
         /* Светлая тема */
         body.light {
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-            color: #333;
+            background-color: #f8f9fa;
+            color: #343a40;
         }
 
         /* Темная тема */
         body.dark {
-            background: linear-gradient(135deg, #2a2a3d, #1e1b39);
-            color: #ddd;
+            background-color: #212529;
+            color: #f8f9fa;
         }
 
         /* Фон с текстурой */
@@ -43,85 +43,102 @@
             right: 0;
             bottom: 0;
             background-image: url('https://i.ibb.co/HqRwCSL/Pattern-Copy-1.png');
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            opacity: 0.2;
+            background-repeat: repeat;
+            background-size: 300px;
+            opacity: 0.1;
             pointer-events: none;
             z-index: 1;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            max-width: 400px;
-            width: 90%;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(12px);
+            max-width: 450px;
+            width: 85%;
             position: relative;
             z-index: 2;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
         h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
 
         p {
-            font-size: 14px;
-            margin-top: 20px;
-            color: #888;
+            font-size: 16px;
+            margin-top: 25px;
+            color: inherit;
+            opacity: 0.8;
         }
 
         a.button {
             display: inline-block;
-            padding: 15px 30px;
-            font-size: 20px;
-            font-weight: bold;
+            padding: 16px 40px;
+            font-size: 18px;
+            font-weight: 600;
             border-radius: 50px;
             text-decoration: none;
             color: #ffffff;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b, #1e90ff, #00c6ff, #0072ff);
-            background-size: 400% 400%;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: gradientAnimation 5s ease-in-out infinite;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            background-size: 200% 200%;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         a.button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background-position: right center;
         }
 
-        button.close-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            color: #fff;
-            background: linear-gradient(45deg, #ff7e5f, #feb47b);
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        a.button:active {
+            transform: translateY(1px);
         }
 
-        button.close-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        a.button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        a.button:hover::after {
+            opacity: 1;
+        }
+
+        .countdown {
+            font-size: 14px;
+            margin-top: 15px;
+            opacity: 0.7;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.6s ease-out forwards;
         }
     </style>
     <script>
@@ -132,15 +149,17 @@
             const isRussian = language.startsWith('ru');
 
             const titleText = isRussian ? 'Продолжить' : 'Continue';
-            const buttonText = isRussian ? 'Нажмите сюда, чтобы продолжить' : 'Click here to proceed';
+            const buttonText = isRussian ? 'Продолжить' : 'Continue';
             const instructionsText = isRussian 
-                ? 'Чтобы перейти далее, нажмите на кнопку выше.'
-                : 'To continue, please click the button above.';
+                ? 'Вы будете перенаправлены автоматически через'
+                : 'You will be automatically redirected in';
+            const countdownText = isRussian ? 'секунд' : 'seconds';
 
-            //document.getElementById('title').innerText = titleText;
+            document.getElementById('title').innerText = titleText;
             document.getElementById('redirectLink').innerText = buttonText;
             document.getElementById('redirectLink').href = redirectTo;
             document.getElementById('instructions').innerText = instructionsText;
+            document.getElementById('countdownText').innerText = countdownText;
 
             // Определяем тему
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -149,27 +168,44 @@
                 document.body.classList.add('light');
             }
 
+            // Обработчик клика по кнопке
+            document.getElementById('redirectLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.open(redirectTo, '_blank');
+                window.close();
+            });
+
+            // Автоматическое перенаправление с таймером
             if (redirectTo) {
-                setTimeout(() => {
-                    window.location.href = redirectTo;
-                }, 5000); // Автоматическое перенаправление через 5 секунд
+                let seconds = 5;
+                const countdownElement = document.getElementById('countdown');
+                countdownElement.innerText = seconds;
+                
+                const timer = setInterval(function() {
+                    seconds--;
+                    countdownElement.innerText = seconds;
+                    
+                    if (seconds <= 0) {
+                        clearInterval(timer);
+                        window.open(redirectTo, '_blank');
+                        window.close();
+                    }
+                }, 1000);
             } else {
                 alert(isRussian ? 'Не указана ссылка для перенаправления.' : 'No redirect link specified.');
             }
-
-            // Добавляем функциональность закрытия страницы
-            document.getElementById('closePage').addEventListener('click', function () {
-                window.close();
-            });
         });
     </script>
 </head>
 <body>
     <div class="container">
-        <!-- <h1 id="title">Continue</h1> -->
-        <a id="redirectLink" class="button" href="#" target="_blank">Click here to proceed</a>
-        <p id="instructions">To continue, please click the button above.</p>
-        <button id="closePage" class="close-button">Close Page</button>
+        <h1 id="title">Continue</h1>
+        <a id="redirectLink" class="button" href="#">Continue</a>
+        <p id="instructions">You will be automatically redirected in</p>
+        <p class="countdown">
+            <span id="countdown">5</span> 
+            <span id="countdownText">seconds</span>
+        </p>
     </div>
 </body>
 </html>
